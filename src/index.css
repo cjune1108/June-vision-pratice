@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Source Sans 3', sans-serif;
+  --color-primary: #0056D2;
+  --color-primary-hover: #004AB8;
+  --color-light-blue: #E3EEFF;
+  --color-page-bg: #F2F5FA;
+  --color-text-dark: #0F1114;
+  --color-text-muted: #5B6780;
+  --color-border: #DAE1ED;
+  --color-xp-orange: #C74504;
+  --animate-hint-in: hint-slide-in 200ms ease-out both;
+  --animate-modal-in: modal-scale-in 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-overlay-in: overlay-fade-in 200ms ease-out both;
+}
+
+@keyframes hint-slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modal-scale-in {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+html {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Source Sans 3', sans-serif;
+  background-color: var(--color-page-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
