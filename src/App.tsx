@@ -218,7 +218,7 @@ function ExplorerSidebar() {
 
 // ─── Code Editor with Selection ───
 
-const codeLines: { num: number; content: JSX.Element | null }[] = [
+const codeLines: { num: number; content: React.ReactNode }[] = [
   { num: 1, content: <><span className="text-[#569cd6]">{'<header>'}</span><span className="text-[#d4d4d4]">June Chang</span><span className="text-[#569cd6]">{'</header>'}</span></> },
   { num: 2, content: <span className="text-[#569cd6]">{'<nav>'}</span> },
   { num: 3, content: <><span className="text-[#d4d4d4]">{'  '}</span><span className="text-[#569cd6]">{'<a '}</span><span className="text-[#9cdcfe]">href</span><span className="text-[#d4d4d4]">=</span><span className="text-[#ce9178]">{'"#"'}</span><span className="text-[#d4d4d4]">{'>Home'}</span><span className="text-[#569cd6]">{'</a>'}</span></> },
