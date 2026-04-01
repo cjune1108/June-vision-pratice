@@ -29,9 +29,12 @@ import {
   CircleCheck,
   Loader2,
   ArrowRight,
-  Menu,
   Play,
   Zap,
+  Smartphone,
+  Pencil,
+  Award,
+  TrendingUp,
 } from 'lucide-react'
 
 type Page = 'challenge' | 'ide' | 'complete' | 'welcome'
@@ -76,6 +79,158 @@ function CourseSidebar() {
     <div className="w-[52px] shrink-0 bg-white rounded-2xl flex flex-col items-center pt-4 h-full">
       <button className="p-1.5 rounded hover:bg-black/5 transition-colors"><PanelLeft className="w-5 h-5 text-text-muted" /></button>
       <div className="w-8 h-px bg-border mt-3" />
+    </div>
+  )
+}
+
+const learningPathTasks: {
+  title: string
+  type: string
+  duration: string
+  icon: 'practice-data' | 'video' | 'practice-debug'
+}[] = [
+  { title: 'Working with Large data sets', type: 'Practice', duration: '4min', icon: 'practice-data' },
+  { title: 'Why good prompts matter', type: 'Video', duration: '4min', icon: 'video' },
+  { title: 'Roles, Context & Framing', type: 'Video', duration: '4min', icon: 'video' },
+  { title: 'Few-shot example formatting', type: 'Video', duration: '4min', icon: 'video' },
+  { title: 'Iteration & Debugging Prompts', type: 'Practice', duration: '15min', icon: 'practice-debug' },
+]
+
+function LearningPathTaskIcon({ variant }: { variant: (typeof learningPathTasks)[number]['icon'] }) {
+  if (variant === 'practice-data') {
+    return (
+      <div className="w-[50px] h-12 rounded-lg overflow-hidden shrink-0 ring-1 ring-black/[0.06] bg-[#f0f6ff]">
+        <img src="/lp-working-large-datasets.png" alt="" className="w-full h-full object-cover" />
+      </div>
+    )
+  }
+  if (variant === 'video') {
+    return (
+      <div className="w-10 h-10 rounded-full bg-[#eff6ff] flex items-center justify-center shrink-0">
+        <Video className="w-5 h-5 text-primary" strokeWidth={1.75} />
+      </div>
+    )
+  }
+  return (
+    <div className="w-[50px] h-12 rounded-lg overflow-hidden shrink-0 ring-1 ring-black/[0.06] bg-[#fff5eb]">
+      <img src="/lp-iteration-debugging.png" alt="" className="w-full h-full object-cover" />
+    </div>
+  )
+}
+
+function LearningPathSidebarColumn({
+  open,
+  onOpen,
+  onClose,
+}: {
+  open: boolean
+  onOpen: () => void
+  onClose: () => void
+}) {
+  return (
+    <div
+      className={`shrink-0 h-full min-h-0 flex flex-col bg-white rounded-2xl overflow-hidden transition-[width] duration-300 ease-in-out ${
+        open ? 'w-[360px]' : 'w-[52px]'
+      }`}
+    >
+      {!open ? (
+        <div className="flex flex-col items-center pt-4 w-[52px] h-full min-h-0">
+          <button
+            type="button"
+            onClick={onOpen}
+            className="p-1.5 rounded-lg hover:bg-black/5 transition-colors"
+            aria-label="Open learning path"
+          >
+            <PanelLeft className="w-5 h-5 text-text-muted" />
+          </button>
+          <div className="w-8 h-px bg-border mt-3" />
+        </div>
+      ) : (
+        <div className="flex flex-col h-full min-h-0 w-[360px]">
+          <div className="shrink-0 px-6 pt-6 pb-7 border-b border-border/60">
+            <div className="flex items-start justify-between gap-2">
+              <div className="min-w-0 flex-1">
+                <h2 className="text-xl font-semibold text-text-dark leading-6 tracking-[-0.06px]">
+                  Generative AI Content Creation
+                </h2>
+                <button
+                  type="button"
+                  className="mt-1 text-sm font-semibold text-primary hover:underline text-left block"
+                >
+                  My personalized learning path
+                </button>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="p-1 rounded-lg hover:bg-black/5 shrink-0"
+                aria-label="Close learning path"
+              >
+                <PanelLeft className="w-5 h-5 text-text-muted" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 pt-4 pb-6 flex flex-col">
+            <div className="shrink-0 rounded-xl p-4 relative overflow-hidden bg-slate-50">
+              <div
+                className="absolute inset-0 opacity-80 pointer-events-none rounded-xl"
+                style={{
+                  background: 'linear-gradient(20.78deg, rgb(255, 255, 255) 34%, rgb(242, 245, 250) 82%)',
+                }}
+              />
+              <div className="relative flex gap-4 items-start">
+                <div className="flex-1 min-w-0 flex flex-col gap-2">
+                  <p className="text-sm font-semibold text-text-dark leading-[18px] tracking-[-0.042px]">
+                    Today&apos;s <span className="underline decoration-solid">60min</span> session
+                  </p>
+                  <p className="text-xs text-text-dark leading-[18px]">
+                    Understand HTML advanced concepts and be able to build a HTML webpage.
+                  </p>
+                </div>
+                <div className="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center shrink-0 ring-1 ring-amber-200/40">
+                  <Trophy className="w-5 h-5 text-amber-700" strokeWidth={1.75} />
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-col gap-3">
+              {learningPathTasks.map((task) => (
+                <button
+                  key={task.title}
+                  type="button"
+                  className={`w-full text-left rounded-xl py-3 pl-2 pr-3 flex gap-3 items-center transition-colors hover:bg-[#f0f6ff]/80 ${
+                    task.icon === 'video' ? 'pl-1.5' : ''
+                  }`}
+                >
+                  <LearningPathTaskIcon variant={task.icon} />
+                  <div className="min-w-0 flex-1 flex flex-col gap-1">
+                    <p className="text-base font-semibold text-text-dark leading-5 tracking-[-0.048px]">{task.title}</p>
+                    <p className="text-sm text-[#636363] leading-5">
+                      {task.type}
+                      <span className="text-text-muted mx-2">•</span>
+                      {task.duration}
+                    </p>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-8 pt-4 border-t border-border shrink-0">
+              <p className="text-xs text-text-muted leading-[18px] mb-3">Future Learning</p>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-[#22c55e] shrink-0" strokeWidth={2} />
+                  <span className="text-sm font-semibold text-text-muted tracking-[-0.042px] uppercase">Next goal</span>
+                </div>
+                <p className="text-xs text-text-dark leading-[18px] pl-0">
+                  Understand GitHub advanced concepts and be able to utilize the platform.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -731,7 +886,7 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
     <div className="flex flex-1 gap-4 px-4 pb-4 min-h-0 relative">
       {/* Left sidebar */}
       <div className="w-[52px] shrink-0 bg-white rounded-2xl flex flex-col items-center pt-4 h-full">
-        <button className="p-1.5 rounded hover:bg-black/5 transition-colors"><Menu className="w-5 h-5 text-text-muted" /></button>
+        <button className="p-1.5 rounded hover:bg-black/5 transition-colors"><PanelLeft className="w-5 h-5 text-text-muted" /></button>
       </div>
 
       {/* Main content card */}
@@ -748,16 +903,18 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
                   <img src="/xp-icon.png" alt="" className="w-6 h-6 shrink-0" />
                   <span className="text-xl font-semibold text-xp-orange tracking-[-0.06px] leading-6">+ 30XP</span>
                 </div>
-                <button className="text-primary font-semibold text-base leading-6 hover:underline self-start">
-                  View full submission
-                </button>
-                <button
-                  onClick={onFinishSession}
-                  className="bg-[#0056D2] hover:bg-primary-hover text-white font-semibold text-base leading-6 tracking-[1px] px-6 py-3 rounded-lg transition-colors flex items-center gap-2 self-start mt-2"
-                >
-                  Finish today session
-                  <ArrowRight className="w-5 h-5" strokeWidth={2} />
-                </button>
+                <div className="flex items-center gap-4 mt-2">
+                  <button
+                    onClick={onFinishSession}
+                    className="bg-[#0056D2] hover:bg-primary-hover text-white font-semibold text-base leading-6 tracking-[1px] px-6 py-3 rounded-lg transition-colors flex items-center gap-2"
+                  >
+                    Finish session
+                    <ArrowRight className="w-5 h-5" strokeWidth={2} />
+                  </button>
+                  <button className="text-primary font-semibold text-base leading-6 hover:underline transition-colors">
+                    Extend today's session
+                  </button>
+                </div>
               </div>
               <div className="hidden md:block w-[289px] h-[195px] shrink-0 ml-6">
                 <img src="/practice-done.png" alt="" className="w-full h-full object-contain" />
@@ -781,29 +938,47 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
               </ul>
             </section>
 
-            {/* Areas to focus on */}
+            {/* Skill gap section */}
             <section className="flex flex-col gap-4">
-              <h3 className="text-xl font-semibold text-black tracking-[-0.06px] leading-6">Areas to focus on</h3>
-              <ul className="flex flex-col gap-2">
-                {focusOn.map((item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <CircleCheck className="w-4 h-4 text-text-dark shrink-0" strokeWidth={2} />
-                    <span className="text-base text-text-dark leading-6">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="text-xl font-semibold text-black tracking-[-0.06px] leading-6">Opportunity to dive into your skill gap</h3>
 
-              {/* AI Recap Card — inside Areas section per Figma */}
-              <div className="bg-[#f1f6ff] rounded-[14px] px-5 py-5 max-w-[700px] mt-5">
-                <div className="flex items-center gap-1 mb-2">
-                  <Target className="w-4 h-4 text-[#3587FC] shrink-0" strokeWidth={2} />
-                  <span className="text-base font-semibold text-text-dark leading-[17px] tracking-[-0.048px]">
-                    We'll recap this in your next session
-                  </span>
+              {/* Skill gap card */}
+              <div className="rounded-2xl border border-[#dae1ed] p-4">
+                <div className="flex flex-col gap-4">
+                  {/* Description */}
+                  <div className="flex flex-col gap-2">
+                    <p className="text-base font-semibold text-text-dark tracking-[-0.048px] leading-5">Product development lifecycle</p>
+                    <div className="text-sm text-text-dark leading-5">
+                      <p>Based on your recent work, it seems that you are less comfortable working with large data sets.</p>
+                      <p>It might help you to spend a bit of time learning this core skill before continuing in your path.</p>
+                    </div>
+                  </div>
+
+                  {/* Recommended course */}
+                  <div className="bg-[#f0f6ff] rounded-lg p-3">
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-[88px] h-[56px] rounded-xl overflow-hidden shrink-0 ring-1 ring-black/[0.06]">
+                          <img src="/accessing-databases-python-thumb.png" alt="" className="w-full h-full object-cover" />
+                        </div>
+                        <div>
+                          <p className="text-base text-text-dark tracking-[-0.048px] leading-5">Accessing Databases with Python</p>
+                          <div className="flex items-center gap-3 mt-1">
+                            <span className="text-sm text-text-muted leading-5">Video</span>
+                            <div className="flex items-center gap-1">
+                              <Clock className="w-4 h-4 text-text-muted" strokeWidth={1.8} />
+                              <span className="text-sm text-text-muted leading-5">4m</span>
+                            </div>
+                            <span className="text-sm text-text-muted font-semibold leading-5">IBM</span>
+                          </div>
+                        </div>
+                      </div>
+                      <button className="px-4 py-2 bg-[#FFFFFF] border-2 border-primary text-primary font-semibold text-sm leading-5 tracking-[1px] rounded-lg hover:bg-blue-50 transition-colors whitespace-nowrap shrink-0">
+                        Add to my learning plan
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-[13px] font-semibold text-text-dark leading-[17px] tracking-[-0.04px]">
-                  We'll bring the core topics back to the start of your next session to ensure you feel ready.
-                </p>
               </div>
             </section>
           </div>
@@ -815,111 +990,163 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
   )
 }
 
-// ─── Welcome Back Page ───
+// ─── Welcome Back Page (Prepare; MC BG from Figma node 398:32918) ───
 
-const tasks = [
-  {
-    title: 'Recap Previous Concepts',
-    type: 'Practice',
-    duration: '4min',
-    icon: <img src="/task-recap2.png" alt="" className="w-12 h-12 object-contain" />,
-    bg: '',
-  },
-  {
-    title: 'Installing and Using Claude Code, (Mac)',
-    type: 'Video',
-    duration: '3min',
-    icon: <img src="/task-video.png" alt="" className="w-12 h-12 object-contain" />,
-    bg: '',
-  },
-  {
-    title: 'Using AI to enhance your workflow',
-    type: 'Todays Challenge',
-    duration: '7min',
-    icon: <img src="/task-challenge2.png" alt="" className="w-12 h-12 object-contain rounded-lg" />,
-    bg: '',
-  },
-]
-
-function WelcomeBackPage({ onContinue }: { onContinue: () => void }) {
+function WelcomeChipSparkle({ className }: { className?: string }) {
   return (
-    <div className="flex flex-1 px-4 pb-4 min-h-0">
-      {/* Main white card */}
-      <main className="flex-1 bg-white rounded-2xl overflow-hidden min-h-0 min-w-0">
-        <div className="h-full overflow-auto">
-          {/* Hero — gradient bg */}
-          <div className="bg-gradient-to-br from-[#f3f0ff] via-[#f0f0ff] to-[#fff0fa] rounded-2xl relative overflow-clip mx-5 mt-5">
-            <div className="max-w-[770px] mx-auto flex items-center justify-between px-4 py-10 md:py-12 min-h-[220px] md:min-h-[260px]">
-              <div className="flex flex-col gap-3 relative z-10 max-w-[420px] min-w-0">
-                <h1 className="text-[28px] md:text-[36px] font-semibold text-text-dark leading-tight md:leading-[42px] tracking-[-0.5px]">
-                  Welcome back!
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <defs>
+        <linearGradient id="welcome-chip-sparkle" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#6366F1" />
+          <stop offset="1" stopColor="#2563EB" />
+        </linearGradient>
+      </defs>
+      <path d="M10 3L12.5 9.5L19 12L12.5 14.5L10 21L7.5 14.5L1 12L7.5 9.5L10 3Z" fill="url(#welcome-chip-sparkle)" />
+      <path d="M18 1L19.125 4.125L22.25 5.25L19.125 6.375L18 9.5L16.875 6.375L13.75 5.25L16.875 4.125L18 1Z" fill="url(#welcome-chip-sparkle)" />
+    </svg>
+  )
+}
+
+function WelcomeBackPage({
+  onContinue,
+  learningPathOpen,
+  onLearningPathOpen,
+  onLearningPathClose,
+}: {
+  onContinue: () => void
+  learningPathOpen: boolean
+  onLearningPathOpen: () => void
+  onLearningPathClose: () => void
+}) {
+  return (
+    <div className="flex flex-1 min-h-0 gap-4 px-4 pb-0">
+      <LearningPathSidebarColumn
+        open={learningPathOpen}
+        onOpen={onLearningPathOpen}
+        onClose={onLearningPathClose}
+      />
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl border border-white bg-white overflow-hidden relative min-h-0">
+        <div
+          className="absolute inset-0 pointer-events-none rounded-2xl bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/mc-bg-04.png')" }}
+        />
+        <div className="relative z-0 flex flex-1 min-h-0 flex-col">
+          <div className="flex-1 min-h-0 overflow-auto flex flex-col items-center px-4 pt-6 md:pt-10 pb-4">
+          <div className="w-full max-w-[818px] rounded-2xl border border-border bg-white overflow-hidden">
+            {/* Hero */}
+            <div className="bg-[#f2f5fa] px-6 sm:px-8 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div className="flex flex-col gap-1 max-w-[398px] min-w-0">
+                <p className="text-base text-text-muted leading-6">Todays personalized session</p>
+                <h1 className="text-[30px] font-semibold text-black leading-9 tracking-[-0.15px]">
+                  Welcome back Sara!
                 </h1>
-                <p className="text-base text-text-muted leading-6">
-                  We've adjusted your personalized plan based on what you learned and your performance in last session.
-                </p>
                 <button
+                  type="button"
                   onClick={onContinue}
-                  className="bg-[#0056D2] hover:bg-primary-hover text-white font-semibold text-base leading-6 w-[195px] h-[48px] rounded-lg transition-colors self-start mt-2 flex items-center justify-center gap-2"
+                  className="mt-3 self-start bg-primary hover:bg-primary-hover text-white font-semibold text-base tracking-[1px] px-6 py-2.5 rounded-lg transition-colors"
                 >
-                  Continue learning
-                  <ArrowRight className="w-5 h-5" strokeWidth={2} />
+                  Start
                 </button>
               </div>
-              <div className="hidden md:block w-[320px] h-[220px] shrink-0 ml-8">
-                <img src="/welcome-hero.png" alt="" className="w-full h-full object-contain" />
+              <div className="hidden md:flex w-[280px] h-[168px] shrink-0 items-center justify-center">
+                <img src="/welcome-hero.png" alt="" className="max-h-full max-w-full object-contain" />
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="bg-white px-6 sm:px-10 py-8 flex flex-col lg:flex-row gap-8 border-t border-border">
+              <div className="flex-1 min-w-0 flex flex-col gap-6">
+                <div className="flex gap-2 items-start">
+                  <Smartphone className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <div className="flex flex-col gap-2 min-w-0">
+                    <p className="text-xs text-text-muted leading-4">Recap from mobile</p>
+                    <p className="text-sm text-text-dark leading-5">
+                      Last time you covered the foundations of prompt engineering — all five modules. Nice work! Since you listened in audio mode, you got the concepts but missed the hands-on parts. So today we&apos;re going to dive in. This session is lighter on new material and heavier on doing.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 items-start">
+                  <Award className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.75} aria-hidden />
+                  <div className="flex flex-col gap-2 min-w-0 opacity-90">
+                    <p className="text-xs text-text-muted leading-4">Here&apos;s what you will learn today</p>
+                    <p className="text-[14px] font-medium text-text-dark leading-5">Prompt engineering basics</p>
+                    <p className="text-sm text-text-dark leading-5">
+                      The last module is the most practical one and it&apos;s entirely hands-on. You need to actually break and fix prompts to get it — so that&apos;s our main event today.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="w-full lg:w-[215px] shrink-0">
+                <div className="rounded-lg border border-border bg-white p-4 flex flex-col gap-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-base font-semibold text-black tracking-[-0.048px] leading-5">Today&apos;s plan</p>
+                    <button type="button" className="p-1 rounded hover:bg-black/5 text-text-muted" aria-label="Edit plan">
+                      <Pencil className="w-4 h-4" strokeWidth={2} />
+                    </button>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-text-dark shrink-0" strokeWidth={1.5} />
+                      <span className="text-base text-text-dark leading-6">60min session</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <img src="/xp-icon.png" alt="" className="w-5 h-5" />
+                      <span className="text-base font-semibold text-xp-orange leading-5 tracking-[-0.048px]">120 XP</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          </div>
 
-          {/* Body content — centered */}
-          <div className="max-w-[770px] mx-auto px-4 py-8 space-y-4">
-            {/* Course completion card */}
-            <div className="rounded-2xl border border-[#E8EEF7] px-6 py-5">
-              <h3 className="text-base font-semibold text-text-dark tracking-[-0.048px] leading-5 mb-1">Great job on your progress!</h3>
-              <p className="text-sm font-semibold text-text-dark leading-6 mb-2">
-                <span className="text-text-dark">20%</span>{' '}
-                <span className="text-text-dark font-normal">Course completion</span>
-              </p>
-              <div className="relative h-1 w-full rounded-[2px] bg-[#adcfff]">
-                <div className="absolute left-0 top-0 h-full rounded-[2px] bg-[#2254ca]" style={{ width: '13%' }} />
-              </div>
-            </div>
-
-            {/* Session header */}
-            <div className="bg-[#f0f6ff] rounded-2xl px-6 py-5">
-              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-                <div className="flex items-center gap-2">
-                  <Target className="w-4 h-4 text-[#3587FC]" strokeWidth={2} />
-                  <span className="text-sm font-semibold text-text-dark leading-[18px] tracking-[-0.042px]">Today's session</span>
-                  <span className="text-sm text-text-muted">•</span>
-                  <span className="text-sm text-text-dark font-semibold underline">15 min</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <img src="/xp-icon.png" alt="" className="w-5 h-5" />
-                  <span className="text-sm font-semibold text-xp-orange">30</span>
-                  <span className="text-sm text-text-muted font-semibold">/60XP</span>
-                </div>
-              </div>
-              <h4 className="text-base font-semibold text-text-dark leading-5 tracking-[-0.048px]">Its all about the basics</h4>
-              <p className="text-sm text-[#636363] leading-5 mt-1">Get your system set up for building a website</p>
-            </div>
-
-            {/* Task list */}
-            <div className="flex flex-col gap-3">
-              {tasks.map((task) => (
-                <div
-                  key={task.title}
-                  className="rounded-2xl border border-[#E8EEF7] px-6 py-4 flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow"
+          <div className="shrink-0 w-full flex justify-center px-4 pb-[30px] pt-2">
+            <div className="w-full max-w-[812px] flex flex-col gap-2">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 h-[45px] rounded-lg border border-border bg-white text-sm text-text-dark hover:bg-gray-50/80 text-left max-w-full"
                 >
-                  <div className={`w-12 h-12 ${task.bg} rounded-xl flex items-center justify-center shrink-0`}>
-                    {task.icon}
+                  <span className="flex w-7 justify-center shrink-0 pt-0.5">
+                    <WelcomeChipSparkle className="w-4 h-4" />
+                  </span>
+                  <span className="leading-5">Share my skill level for better personalization</span>
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-white text-sm text-text-dark hover:bg-gray-50/80 text-left max-w-full"
+                >
+                  <div className="w-[33px] h-[33px] rounded bg-orange-50 flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4 text-orange-600" strokeWidth={1.75} />
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-base font-semibold text-text-dark leading-5 tracking-[-0.048px]">{task.title}</p>
-                    <p className="text-sm text-[#636363] leading-5 mt-0.5">{task.type} • {task.duration}</p>
-                  </div>
-                </div>
-              ))}
+                  <span className="leading-5">Recap what you learned from last session</span>
+                </button>
+              </div>
+              <div className="bg-white border border-border rounded-lg p-2 flex items-center gap-2 shadow-sm">
+                <button type="button" className="p-1.5 rounded hover:bg-black/5 shrink-0" aria-label="Add">
+                  <Plus className="w-5 h-5 text-text-muted" />
+                </button>
+                <input
+                  type="text"
+                  placeholder="Ask me anything"
+                  className="flex-1 min-w-0 bg-transparent text-base text-text-dark placeholder:text-text-muted outline-none"
+                />
+                <button type="button" className="p-1.5 rounded hover:bg-black/5 shrink-0" aria-label="Voice input">
+                  <Mic className="w-5 h-5 text-text-muted" />
+                </button>
+                <button
+                  type="button"
+                  className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center hover:opacity-90 transition-opacity"
+                  style={{
+                    background: 'linear-gradient(123deg, rgb(105, 35, 222) 22%, rgb(50, 134, 255) 93%)',
+                  }}
+                  aria-label="Send"
+                >
+                  <ArrowUp className="w-4 h-4 text-white" strokeWidth={2.5} />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -933,10 +1160,15 @@ function WelcomeBackPage({ onContinue }: { onContinue: () => void }) {
 export default function App() {
   const [page, setPage] = useState<Page>('challenge')
   const [rightPanel, setRightPanel] = useState<RightPanel>('instructions')
+  const [learningPathOpen, setLearningPathOpen] = useState(false)
 
   const toggleCoach = () => {
     setRightPanel(rightPanel === 'coach' ? 'instructions' : 'coach')
   }
+
+  useEffect(() => {
+    if (page !== 'welcome') setLearningPathOpen(false)
+  }, [page])
 
   return (
     <div className="h-screen w-full flex flex-col bg-page-bg font-sans overflow-hidden">
@@ -951,7 +1183,12 @@ export default function App() {
         <PracticeCompletePage onFinishSession={() => setPage('welcome')} />
       )}
       {page === 'welcome' && (
-        <WelcomeBackPage onContinue={() => setPage('challenge')} />
+        <WelcomeBackPage
+          onContinue={() => setPage('challenge')}
+          learningPathOpen={learningPathOpen}
+          onLearningPathOpen={() => setLearningPathOpen(true)}
+          onLearningPathClose={() => setLearningPathOpen(false)}
+        />
       )}
     </div>
   )
