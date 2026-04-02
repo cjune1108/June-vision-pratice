@@ -31,7 +31,6 @@ import {
   ArrowRight,
   Play,
   Zap,
-  Smartphone,
   Pencil,
   Award,
   TrendingUp,
@@ -974,7 +973,16 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
                               <Clock className="w-4 h-4 text-text-muted" strokeWidth={1.8} />
                               <span className="text-sm text-text-muted leading-5">4m</span>
                             </div>
-                            <span className="text-sm text-text-muted font-semibold leading-5">IBM</span>
+                            <div className="flex h-6 items-center gap-1">
+                              <div className="box-border flex size-6 shrink-0 items-center justify-center overflow-hidden rounded border border-[#e8eef7] bg-white p-[2px]">
+                                <img
+                                  src="/ibm-partner-mark.png"
+                                  alt=""
+                                  className="max-h-full max-w-full rounded-[2px] object-cover"
+                                />
+                              </div>
+                              <span className="text-sm font-semibold leading-5 text-text-muted">IBM</span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1211,11 +1219,11 @@ function WelcomeBackPage({
             <div className="flex flex-col gap-8 border-t border-border bg-white px-6 py-8 sm:px-10 lg:flex-row">
               <div className="flex-1 min-w-0 flex flex-col gap-6">
                 <div className="flex gap-2 items-start">
-                  <Smartphone className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <Target className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.5} />
                   <div className="flex flex-col gap-2 min-w-0">
-                    <p className="text-xs text-text-muted leading-4">Recap from mobile</p>
+                    <p className="text-xs text-text-muted leading-4">Skill gap you will close</p>
                     <p className="text-sm text-text-dark leading-5">
-                      Last time you covered the foundations of prompt engineering — all five modules. Nice work! Since you listened in audio mode, you got the concepts but missed the hands-on parts. So today we&apos;re going to dive in. This session is lighter on new material and heavier on doing.
+                      Based on our last session, I&apos;ve added the practice on working with large data sets to the start of todays session. Once you&apos;re comfortable there, we&apos;ll kick off our work on the next skill.
                     </p>
                   </div>
                 </div>
@@ -1223,10 +1231,10 @@ function WelcomeBackPage({
                 <div className="flex gap-2 items-start">
                   <Award className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.75} aria-hidden />
                   <div className="flex flex-col gap-2 min-w-0 opacity-90">
-                    <p className="text-xs text-text-muted leading-4">Here&apos;s what you will learn today</p>
-                    <p className="text-[14px] font-medium text-text-dark leading-5">Prompt engineering basics</p>
-                    <p className="text-sm text-text-dark leading-5">
-                      The last module is the most practical one and it&apos;s entirely hands-on. You need to actually break and fix prompts to get it — so that&apos;s our main event today.
+                    <p className="text-xs text-text-muted leading-4">Skills you will learn</p>
+                    <p className="text-[16px] font-semibold leading-6 text-text-dark">Prompt engineering basics</p>
+                    <p className="text-sm font-normal text-text-dark leading-5">
+                      Based on your recent work, it seems that you are less comfortable working with large data sets. It might help you to spend a bit of time learning this core skill before continuing in your path.
                     </p>
                   </div>
                 </div>
