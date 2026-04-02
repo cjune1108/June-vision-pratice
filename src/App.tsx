@@ -35,6 +35,11 @@ import {
   Pencil,
   Award,
   TrendingUp,
+  Sprout,
+  TreeDeciduous,
+  TreePine,
+  NotebookPen,
+  Expand,
 } from 'lucide-react'
 
 type Page = 'challenge' | 'ide' | 'complete' | 'welcome'
@@ -992,6 +997,56 @@ function PracticeCompletePage({ onFinishSession }: { onFinishSession: () => void
 
 // ─── Welcome Back Page (Prepare; MC BG from Figma node 398:32918) ───
 
+/** Figma Proactive-AI-Learning-Vision — assistant top bar on welcome main canvas (node 358:14741) */
+function WelcomeAssistantNavBar() {
+  return (
+    <header
+      className="z-10 flex h-14 shrink-0 items-center justify-between rounded-t-2xl border-b border-white/50 bg-white/80 px-4 backdrop-blur-md"
+      role="banner"
+    >
+      <div className="flex shrink-0 items-center" aria-hidden>
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none">
+          <defs>
+            <linearGradient
+              id="welcome-assistant-nav-sparkle"
+              x1="2"
+              y1="2"
+              x2="22"
+              y2="22"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#6366F1" />
+              <stop offset="1" stopColor="#2563EB" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M10 3L12.5 9.5L19 12L12.5 14.5L10 21L7.5 14.5L1 12L7.5 9.5L10 3Z"
+            fill="url(#welcome-assistant-nav-sparkle)"
+          />
+          <path
+            d="M18 1L19.125 4.125L22.25 5.25L19.125 6.375L18 9.5L16.875 6.375L13.75 5.25L16.875 4.125L18 1Z"
+            fill="url(#welcome-assistant-nav-sparkle)"
+          />
+        </svg>
+      </div>
+      <div className="flex items-center gap-0.5">
+        <button type="button" className="rounded-lg p-2 transition-colors hover:bg-gray-100" aria-label="New chat">
+          <Plus className="h-5 w-5 text-text-muted" strokeWidth={1.8} />
+        </button>
+        <button type="button" className="rounded-lg p-2 transition-colors hover:bg-gray-100" aria-label="Settings">
+          <Settings className="h-5 w-5 text-text-muted" strokeWidth={1.8} />
+        </button>
+        <button type="button" className="rounded-lg p-2 transition-colors hover:bg-gray-100" aria-label="Expand">
+          <Expand className="h-5 w-5 text-text-muted" strokeWidth={1.8} />
+        </button>
+        <button type="button" className="rounded-lg p-2 transition-colors hover:bg-gray-100" aria-label="Close">
+          <X className="h-5 w-5 text-text-muted" strokeWidth={1.8} />
+        </button>
+      </div>
+    </header>
+  )
+}
+
 function WelcomeChipSparkle({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -1007,6 +1062,63 @@ function WelcomeChipSparkle({ className }: { className?: string }) {
   )
 }
 
+const SKILL_SHARE_PROMPT =
+  'Share my skill level for better personalization'
+
+/** Figma Proactive-AI-Learning-Vision — skill assessment card (node 358:15570) */
+function SkillAssessmentCard() {
+  const levels = [
+    {
+      Icon: Sprout,
+      iconBox: 'h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]',
+      iconClass: 'w-9 h-9 sm:w-10 sm:h-10',
+      title: 'New to this',
+      desc: "I haven't done this before",
+    },
+    {
+      Icon: TreeDeciduous,
+      iconBox: 'h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]',
+      iconClass: 'w-10 h-10 sm:w-11 sm:h-11',
+      title: "I've seen this",
+      desc: 'Need a refresher',
+    },
+    {
+      Icon: TreePine,
+      iconBox: 'h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]',
+      iconClass: 'w-11 h-11 sm:w-12 sm:h-12',
+      title: 'I know this well',
+      desc: 'I can do this independently',
+    },
+  ] as const
+
+  return (
+    <div className="w-full max-w-full animate-hint-in rounded-2xl border border-[#e4e9f0] bg-white p-5 shadow-[0_8px_30px_rgba(15,23,42,0.06)] sm:p-6">
+      <h3 className="text-xl font-semibold text-[#1a1f2a] tracking-[-0.02em] leading-7">Query Relational Data</h3>
+      <p className="mt-2 text-base text-[#5B6780] leading-6">
+        Can you Write a SELECT statement and filter results with WHERE?
+      </p>
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+        {levels.map(({ Icon, iconBox, iconClass, title, desc }) => (
+          <button
+            key={title}
+            type="button"
+            className="flex min-h-0 flex-col items-center rounded-xl border border-[#dae1ed] bg-white px-4 py-6 text-center transition-colors hover:border-[#c5cedd] hover:bg-[#f8fafc] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:px-5"
+          >
+            <span
+              className={`mb-4 flex shrink-0 ${iconBox} items-center justify-center rounded-xl bg-[#ecfdf3] text-[#15803d]`}
+              aria-hidden
+            >
+              <Icon className={iconClass} strokeWidth={1.5} />
+            </span>
+            <p className="text-sm font-semibold text-[#1a1f2a] leading-5">{title}</p>
+            <p className="mt-2 text-xs text-text-muted leading-4 sm:text-sm">{desc}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function WelcomeBackPage({
   onContinue,
   learningPathOpen,
@@ -1018,23 +1130,65 @@ function WelcomeBackPage({
   onLearningPathOpen: () => void
   onLearningPathClose: () => void
 }) {
+  /** 0 = idle, 1 = user bubble, 2 = + AI typing, 3 = + assessment card */
+  const [skillSharePhase, setSkillSharePhase] = useState(0)
+  /** Timers must not live in an effect keyed by `skillSharePhase`: when phase→2, cleanup would cancel the pending phase→3 timeout. */
+  const [skillShareFlowStarted, setSkillShareFlowStarted] = useState(false)
+  /** Scroll this region so the full session card + chat move up together (no translate clipping). */
+  const welcomeStreamScrollRef = useRef<HTMLDivElement>(null)
+
+  const startSkillShareFlow = () => {
+    if (skillShareFlowStarted) return
+    setSkillShareFlowStarted(true)
+    setSkillSharePhase(1)
+  }
+
+  useEffect(() => {
+    if (!skillShareFlowStarted) return
+    const t1 = setTimeout(() => setSkillSharePhase(2), 500)
+    const t2 = setTimeout(() => setSkillSharePhase(3), 1500)
+    return () => {
+      clearTimeout(t1)
+      clearTimeout(t2)
+    }
+  }, [skillShareFlowStarted])
+
+  useEffect(() => {
+    if (!skillShareFlowStarted) return
+    const el = welcomeStreamScrollRef.current
+    if (!el) return
+    const id = requestAnimationFrame(() => {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
+    })
+    return () => cancelAnimationFrame(id)
+  }, [skillSharePhase, skillShareFlowStarted])
+
   return (
-    <div className="flex flex-1 min-h-0 gap-4 px-4 pb-0">
+    <div className="flex min-h-0 flex-1 gap-4 px-4 pb-5">
       <LearningPathSidebarColumn
         open={learningPathOpen}
         onOpen={onLearningPathOpen}
         onClose={onLearningPathClose}
       />
-      <main className="flex-1 min-w-0 min-h-0 flex flex-col rounded-2xl border border-white bg-white overflow-hidden relative min-h-0">
+      <main className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border border-white/70 bg-gradient-to-bl from-[#dfe9ff] via-[#f1f4fa] to-[#fff6e8] shadow-[0_1px_3px_rgba(15,23,42,0.06)]">
         <div
-          className="absolute inset-0 pointer-events-none rounded-2xl bg-cover bg-center bg-no-repeat"
+          className="pointer-events-none absolute inset-0 rounded-2xl bg-cover bg-center bg-no-repeat opacity-[0.35]"
           style={{ backgroundImage: "url('/mc-bg-04.png')" }}
         />
-        <div className="relative z-0 flex flex-1 min-h-0 flex-col">
-          <div className="flex-1 min-h-0 overflow-auto flex flex-col items-center px-4 pt-6 md:pt-10 pb-4">
-          <div className="w-full max-w-[818px] rounded-2xl border border-border bg-white overflow-hidden">
-            {/* Hero */}
-            <div className="bg-[#f2f5fa] px-6 sm:px-8 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-bl from-[#e8f0ff]/90 via-transparent to-[#fff8ed]/80"
+          aria-hidden
+        />
+        <div className="relative z-0 flex min-h-0 min-w-0 flex-1 flex-col">
+          <WelcomeAssistantNavBar />
+          <div
+            ref={welcomeStreamScrollRef}
+            className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto"
+          >
+            <div className="mx-auto flex w-full max-w-[750px] flex-col items-center px-4 pb-6 pt-6 md:pt-8">
+          <div className="w-full overflow-hidden rounded-2xl border border-border bg-white shadow-sm">
+            {/* Hero — entire card scrolls as one unit; do not use translate-y (clips against overflow). */}
+            <div className="flex flex-col gap-6 bg-[#f2f5fa] px-6 py-8 sm:px-8 md:flex-row md:items-center md:justify-between">
               <div className="flex flex-col gap-1 max-w-[398px] min-w-0">
                 <p className="text-base text-text-muted leading-6">Todays personalized session</p>
                 <h1 className="text-[30px] font-semibold text-black leading-9 tracking-[-0.15px]">
@@ -1054,7 +1208,7 @@ function WelcomeBackPage({
             </div>
 
             {/* Body */}
-            <div className="bg-white px-6 sm:px-10 py-8 flex flex-col lg:flex-row gap-8 border-t border-border">
+            <div className="flex flex-col gap-8 border-t border-border bg-white px-6 py-8 sm:px-10 lg:flex-row">
               <div className="flex-1 min-w-0 flex flex-col gap-6">
                 <div className="flex gap-2 items-start">
                   <Smartphone className="w-5 h-5 text-text-muted shrink-0 mt-0.5" strokeWidth={1.5} />
@@ -1100,20 +1254,55 @@ function WelcomeBackPage({
               </div>
             </div>
           </div>
+
+          {skillSharePhase >= 1 && (
+            <div className="mt-6 flex w-full flex-col gap-4">
+              {/* User message — Figma node 358:14758 */}
+              <div className="flex justify-end animate-hint-in">
+                <div className="max-w-[min(100%,420px)] rounded-full bg-[#ede9fe] px-4 py-2.5 shadow-sm border border-[#ddd6fe]/60">
+                  <p className="text-sm sm:text-[15px] text-[#1a1f2a] leading-6 text-left font-medium">
+                    {SKILL_SHARE_PROMPT}
+                  </p>
+                </div>
+              </div>
+              {skillSharePhase >= 2 && skillSharePhase < 3 && (
+                <div className="animate-hint-in">
+                  <TypingIndicator />
+                </div>
+              )}
+              {skillSharePhase >= 3 && <SkillAssessmentCard />}
+            </div>
+          )}
+            </div>
           </div>
 
-          <div className="shrink-0 w-full flex justify-center px-4 pb-[30px] pt-2">
-            <div className="w-full max-w-[812px] flex flex-col gap-2">
+          {/* Transparent so main panel gradient reads as one continuous background */}
+          <div className="flex w-full shrink-0 justify-center bg-transparent px-4 pb-6 pt-4">
+            <div className="mx-auto flex w-full max-w-[820px] flex-col gap-2">
               <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 px-3 py-1.5 h-[45px] rounded-lg border border-border bg-white text-sm text-text-dark hover:bg-gray-50/80 text-left max-w-full"
-                >
-                  <span className="flex w-7 justify-center shrink-0 pt-0.5">
-                    <WelcomeChipSparkle className="w-4 h-4" />
-                  </span>
-                  <span className="leading-5">Share my skill level for better personalization</span>
-                </button>
+                {!skillShareFlowStarted && (
+                  <button
+                    type="button"
+                    onClick={startSkillShareFlow}
+                    className="inline-flex h-[45px] max-w-full items-center gap-2 rounded-lg border border-border bg-white px-3 py-1.5 text-left text-sm text-text-dark transition-colors hover:bg-gray-50/80"
+                  >
+                    <span className="flex w-7 shrink-0 justify-center pt-0.5">
+                      <WelcomeChipSparkle className="h-4 w-4" />
+                    </span>
+                    <span className="leading-5">Share my skill level for better personalization</span>
+                  </button>
+                )}
+                {skillSharePhase >= 3 && (
+                  <button
+                    type="button"
+                    className="inline-flex h-[45px] max-w-full items-center gap-2 rounded-lg border border-border bg-white px-3 py-1.5 text-left text-sm font-medium text-text-dark transition-colors hover:bg-gray-50/80"
+                  >
+                    <div className="flex h-[33px] w-[33px] shrink-0 items-center justify-center rounded bg-rose-50">
+                      <NotebookPen className="h-4 w-4 text-rose-500" strokeWidth={1.75} aria-hidden />
+                    </div>
+                    <span className="leading-5">Take a quiz for better evaluation</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-white text-sm text-text-dark hover:bg-gray-50/80 text-left max-w-full"
@@ -1171,7 +1360,7 @@ export default function App() {
   }, [page])
 
   return (
-    <div className="h-screen w-full flex flex-col bg-page-bg font-sans overflow-hidden">
+    <div className="flex h-screen min-h-0 w-full flex-col overflow-x-hidden overflow-y-hidden bg-page-bg font-sans">
       <Header onSparkleClick={page === 'ide' ? toggleCoach : undefined} />
       {page === 'challenge' && (
         <ChallengePage onLaunch={() => setPage('ide')} />
